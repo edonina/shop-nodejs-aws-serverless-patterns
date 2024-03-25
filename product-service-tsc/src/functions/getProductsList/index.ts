@@ -1,5 +1,4 @@
 export default {
-  // handler: `${handlerPath(__dirname)}/handler.main`,
   handler: `src/functions/handlers.getProductsList`,
   events: [
     {

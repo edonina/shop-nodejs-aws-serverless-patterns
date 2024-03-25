@@ -1,4 +1,4 @@
-import { errorResponse, successResponse } from "../../utils/apiResponseBuilder";
+import { errorResponse, successResponse } from '../../utils/apiResponseBuilder';
 import { ProductServiceInterface } from '../../services/products';
 
 export const getProductsByIdHandler = (productService: ProductServiceInterface) => async (event, _context) => {
