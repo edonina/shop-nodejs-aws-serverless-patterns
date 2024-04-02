@@ -1,5 +1,5 @@
 import { ProductServiceInterface } from './products';
-import products from './products.json';
+import products from '../mocks/products.json';
 
 class ProductService implements ProductServiceInterface {
     getProductById(id: string) {
