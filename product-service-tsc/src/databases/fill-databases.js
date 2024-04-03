@@ -1,15 +1,3 @@
-// import products from '../mocks/products.json' assert { type: 'json' };
-// import stocks from '../mocks/stocks.json' assert { type: 'json' };
-// const products = require('../mocks/products.json');
-// const stocks = require('../mocks/products.json');
-
-// import { DynamoDBClient, BatchWriteItemCommand } from "@aws-sdk/client-dynamodb";
-// import {
-  // DynamoDBDocumentClient,
-  // ScanCommand,
-  // QueryCommand,
-// } from "@aws-sdk/lib-dynamodb";
-
 var products = require("../mocks/products.json");
 var stocks = require("../mocks/stocks.json");
 
