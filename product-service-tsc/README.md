@@ -96,5 +96,9 @@ Any tsconfig.json can be used, but if you do, set the environment variable `TS_N
 
 
 https://d1cgxl5xzjbxmg.cloudfront.net/
-https://v578jw5a5j.execute-api.eu-west-1.amazonaws.com/dev/products
-https://v578jw5a5j.execute-api.eu-west-1.amazonaws.com/dev/products/7567ec4b-b10c-48c5-9345-fc73c48a80aa
+https://qxolzv6wmd.execute-api.eu-west-1.amazonaws.com/dev/products/79481849-c902-47cd-8dad-2a39343fc944
+  GET - https://qxolzv6wmd.execute-api.eu-west-1.amazonaws.com/dev/products
+  GET - https://qxolzv6wmd.execute-api.eu-west-1.amazonaws.com/dev/products/{productId}
+  POST - https://qxolzv6wmd.execute-api.eu-west-1.amazonaws.com/dev/products
+  GET - https://qxolzv6wmd.execute-api.eu-west-1.amazonaws.com/dev/swagger
+  GET - https://qxolzv6wmd.execute-api.eu-west-1.amazonaws.com/dev/swagger.json

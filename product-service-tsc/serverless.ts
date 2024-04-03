@@ -2,6 +2,55 @@ import type { AWS } from '@serverless/typescript';
 
 import getProductsList from '@functions/getProductsList';
 import getProductsById from '@functions/getProductsById';
+import createProduct from '@functions/createProduct';
+
+
+const localDynamoDBResources = {
+  products: {
+    Type: "AWS::DynamoDB::Table",
+    Properties: {
+      TableName: "products",
+      AttributeDefinitions: [
+        {
+          AttributeName: "id",
+          AttributeType: "S",
+        },
+      ],
+      KeySchema: [
+        {
+          AttributeName: "id",
+          KeyType: "HASH",
+        },
+      ],
+      ProvisionedThroughput: {
+        ReadCapacityUnits: 1,
+        WriteCapacityUnits: 1,
+      },
+    },
+  },
+  stocks: {
+    Type: "AWS::DynamoDB::Table",
+    Properties: {
+      TableName: "stocks",
+      AttributeDefinitions: [
+        {
+          AttributeName: "productId",
+          AttributeType: "S",
+        },
+      ],
+      KeySchema: [
+        {
+          AttributeName: "productId",
+          KeyType: "HASH",
+        },
+      ],
+      ProvisionedThroughput: {
+        ReadCapacityUnits: 1,
+        WriteCapacityUnits: 1,
+      },
+    },
+  },
+};
 
 const serverlessConfiguration: AWS = {
   service: 'product-service-tsc',
@@ -24,6 +73,7 @@ const serverlessConfiguration: AWS = {
   functions: { 
     getProductsList,
     getProductsById,
+    createProduct,
    },
   package: { individually: true },
   custom: {
@@ -43,6 +93,8 @@ const serverlessConfiguration: AWS = {
       typefiles: ['./src/services/products.ts'],
     }
   },
+  resources: {
+    Resources: localDynamoDBResources }
 };
 
 module.exports = serverlessConfiguration;
