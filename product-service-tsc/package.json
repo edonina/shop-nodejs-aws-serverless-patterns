@@ -1,7 +1,6 @@
 {
   "name": "product-service-tsc",
   "version": "1.0.0",
-  "type":"module",
   "description": "Serverless aws-nodejs-typescript template",
   "main": "serverless.ts",
   "scripts": {
@@ -19,6 +18,7 @@
     "@aws-sdk/lib-dynamodb": "^3.540.0",
     "@middy/core": "^3.4.0",
     "@middy/http-json-body-parser": "^3.4.0",
+    "uuid": "^9.0.1",
     "winston": "^3.13.0"
   },
   "devDependencies": {
