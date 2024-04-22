@@ -1,7 +1,7 @@
 import parse from 'csv-parser';
 import { S3 } from '@aws-sdk/client-s3';
 const s3 = new S3({
-    region: "eu-central-1",
+    region: "eu-west-1",
 });
 const importFileParser = async (event) => {
     const { s3: { object, bucket } } = event.Records[0];

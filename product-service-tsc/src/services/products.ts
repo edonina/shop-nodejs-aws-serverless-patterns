@@ -19,7 +19,7 @@ export interface StockServiceInterface {
 }
 
 export interface StockInterface {
-    productId: AttributeValue;
-    count: AttributeValue;
+    productId: any;
+    count: any;
   };
   

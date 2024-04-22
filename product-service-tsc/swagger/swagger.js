@@ -144,11 +144,9 @@
     "StockInterface": {
       "properties": {
         "productId": {
-          "$ref": "#/definitions/AttributeValue",
           "title": "StockInterface.productId"
         },
         "count": {
-          "$ref": "#/definitions/AttributeValue",
           "title": "StockInterface.count"
         }
       },
