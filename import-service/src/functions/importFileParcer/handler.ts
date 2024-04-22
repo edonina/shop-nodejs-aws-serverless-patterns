@@ -33,8 +33,7 @@ const importFileParser = async (
     console.log("start sending messages to the queue");
     records.forEach(async (record) => {
       console.log('sending record:');
-      console.log(':::::::::::', JSON.stringify(record));
-      
+
       const result = await sqsClient.send(
         new SendMessageCommand({
           QueueUrl:
@@ -42,8 +41,7 @@ const importFileParser = async (
           MessageBody: JSON.stringify(record),
         })
       );
-      console.log('result');
-      console.log(result);
+      console.log('result', result);
     });
     console.log("complete sending messages to the queue");
 

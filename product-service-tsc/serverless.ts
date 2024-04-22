@@ -90,7 +90,6 @@ const Queues = {
       },
       FilterPolicyScope: "MessageAttributes",
       FilterPolicy: {
-        // price: [{ "anything-but": [5] }],
         price: [{ numeric: [">=", 5] }],
       },
     },
@@ -126,28 +125,6 @@ const serverlessConfiguration: AWS = {
     iam: {
       role: {
         statements: [
-          /*{
-            Effect: "Allow",
-            Action: [
-              "dynamodb:Query",
-              "dynamodb:Scan",
-              "dynamodb:GetItem",
-              "dynamodb:PutItem",
-              "dynamodb:DeleteItem",
-            ],
-            Resource: `arn:aws:dynamodb:eu-west-1:${process.env.BD_ID}:table/products`,
-          },
-          {
-            Effect: "Allow",
-            Action: [
-              "dynamodb:Query",
-              "dynamodb:Scan",
-              "dynamodb:GetItem",
-              "dynamodb:PutItem",
-              "dynamodb:DeleteItem",
-            ],
-            Resource: `arn:aws:dynamodb:eu-west-1:${process.env.BD_ID}:table/stocks`,
-          },*/
           {
             Effect: "Allow",
             Action: ["sns:*"],
