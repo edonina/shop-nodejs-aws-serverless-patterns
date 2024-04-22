@@ -1,10 +1,13 @@
 import type { S3Event } from 'aws-lambda';
 import parse from 'csv-parser';
 import { S3 } from '@aws-sdk/client-s3';
+import { SQSClient, SendMessageCommand } from '@aws-sdk/client-sqs';
 
+const REGION = 'eu-west-1';
 const s3 = new S3({
-  region: "eu-west-1",
+  region: REGION,
 });
+const sqsClient = new SQSClient({ region: REGION });
 
 const importFileParser = async (
   event: S3Event
@@ -27,6 +30,20 @@ const importFileParser = async (
     const parsedKey = `parsed/${object.key.split('/')[1]}`;
 
     console.log(parsedKey);
+    console.log("start sending messages to the queue");
+    records.forEach(async (record) => {
+      console.log('sending record:');
+
+      const result = await sqsClient.send(
+        new SendMessageCommand({
+          QueueUrl:
+            `https://sqs.eu-west-1.amazonaws.com/471112525199/catalogItemsQueue`,
+          MessageBody: JSON.stringify(record),
+        })
+      );
+      console.log('result', result);
+    });
+    console.log("complete sending messages to the queue");
 
     await s3.copyObject({
       Bucket: bucket.name,

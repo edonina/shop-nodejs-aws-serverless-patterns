@@ -11,7 +11,7 @@ export default {
         forceDeploy: true,
         rules: [{
           prefix: "uploaded/",
-          // suffix: ".csv",
+          suffix: ".csv",
         }],
       },
     },

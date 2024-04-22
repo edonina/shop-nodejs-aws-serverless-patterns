@@ -42,7 +42,12 @@ const serverlessConfiguration: AWS = {
             ],
             Resource: `arn:aws:s3:::patterns-images/*`,
           },
-        ],
+          {
+            Effect: "Allow",
+            Action: ["sqs:SendMessage", "sqs:GetQueueUrl", "sqs:ListQueues"],
+            Resource: `arn:aws:sqs:eu-west-1:471112525199:catalogItemsQueue`,
+          },
+        ],      
       },
     },
   },

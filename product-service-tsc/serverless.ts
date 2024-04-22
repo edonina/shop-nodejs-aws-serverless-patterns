@@ -3,6 +3,7 @@ import type { AWS } from '@serverless/typescript';
 import getProductsList from '@functions/getProductsList';
 import getProductsById from '@functions/getProductsById';
 import createProduct from '@functions/createProduct';
+import catalogBatchProcess from '@functions/catalogBatchProcess';
 
 
 const localDynamoDBResources = {
@@ -52,6 +53,53 @@ const localDynamoDBResources = {
   },
 };
 
+const Queues = {
+  SQSQueue: {
+    Type: "AWS::SQS::Queue",
+    Properties: {
+      QueueName: "catalogItemsQueue",
+    },
+  },
+  SNSTopic: {
+    Type: "AWS::SNS::Topic",
+    Properties: {
+      TopicName: "catalogItemsTopic",
+    },
+  },
+  SNSSubscription: {
+    Type: "AWS::SNS::Subscription",
+    Properties: {
+      Endpoint: "vzheeka@gmail.com",
+      Protocol: "email",
+      TopicArn: {
+        Ref: "SNSTopic",
+      },
+      FilterPolicyScope: "MessageAttributes",
+      FilterPolicy: {
+        price: [{ numeric: ["<", 5] }],
+      },
+    },
+  },
+  SNSSubscription2: {
+    Type: "AWS::SNS::Subscription",
+    Properties: {
+      Endpoint: "elena_donina@epam.com",
+      Protocol: "email",
+      TopicArn: {
+        Ref: "SNSTopic",
+      },
+      FilterPolicyScope: "MessageAttributes",
+      FilterPolicy: {
+        price: [{ numeric: [">=", 5] }],
+      },
+    },
+  },
+};
+
+const resources = true
+  ? { Resources: { ...localDynamoDBResources, ...Queues } }
+  : { Resources: Queues };
+
 const serverlessConfiguration: AWS = {
   service: 'product-service-tsc',
   frameworkVersion: '3',
@@ -67,13 +115,34 @@ const serverlessConfiguration: AWS = {
     environment: {
       AWS_NODEJS_CONNECTION_REUSE_ENABLED: '1',
       NODE_OPTIONS: '--enable-source-maps --stack-trace-limit=1000',
+      SQS_URL: {
+        Ref: 'SQSQueue',
+      },
+      SNS_ARN: {
+        Ref: 'SNSTopic',
+      },
+    },
+    iam: {
+      role: {
+        statements: [
+          {
+            Effect: "Allow",
+            Action: ["sns:*"],
+            Resource: {
+              Ref: "SNSTopic",
+            },
+          },
+        ],
+      },
     },
   },
+  
   // import the function via paths
   functions: { 
     getProductsList,
     getProductsById,
     createProduct,
+    catalogBatchProcess,
    },
   package: { individually: true },
   custom: {
@@ -93,8 +162,7 @@ const serverlessConfiguration: AWS = {
       typefiles: ['./src/services/products.ts'],
     }
   },
-  resources: {
-    Resources: localDynamoDBResources }
+  resources,
 };
 
 module.exports = serverlessConfiguration;
