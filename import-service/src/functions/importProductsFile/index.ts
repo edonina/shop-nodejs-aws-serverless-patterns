@@ -9,7 +9,7 @@ export default {
         path: 'import',
         cors: true,
         authorizer: {
-          arn: `arn:aws:lambda:eu-west-1:${process.env.ACCOUNT_URL}:function:authorization-service-dev-basicAuthorizer`,
+          arn: `arn:aws:lambda:eu-west-1:471112525199:function:authorization-service-dev-basicAuthorizer`,
           name: "basicAuthorizer",
           type: "token",
           resultTtlInSeconds: 0,

@@ -1,5 +1,4 @@
 import { APIGatewayTokenAuthorizerEvent } from "aws-lambda";
-import { middyfy } from '@libs/lambda';
 
 enum Actions {
   ALLOW = "Allow",
@@ -58,27 +57,31 @@ const generatePolicyDocument = (
   return policy;
 };
 
-const basicAuthorizer = async (event) => {
+const basicAuthorizer = async (event, context) => {
   const { authorizationToken } = event;
-  console.log(authorizationToken);
+  console.log('authorizationToken', authorizationToken);
   let action = Actions.ALLOW;
 
   if (!authorizationToken) {
-    action = Actions.DENY;
+    /*action = Actions.DENY;
     return {
       policyDocument: generatePolicyDocument(event, action),
-    };
+    };*/
+    return context.fail("Unauthorized");
   }
   const { username, password, principalId } = parseCreds(authorizationToken);
-
+  console.log('process.env.username', process.env.username);
+  console.log('process.env.password', process.env.password);
+  console.log('username', username);
+  console.log('password', password);
   if (!(username === process.env.username && password === process.env.password)) {
     action = Actions.DENY;
   }
-
+  console.log('action', action);
   return {
     principalId: principalId,
     policyDocument: generatePolicyDocument(event, action),
   };
 };
 
-export const main = middyfy(basicAuthorizer);
+export const main = basicAuthorizer;
