@@ -8,6 +8,13 @@ export default {
         method: 'get',
         path: 'import',
         cors: true,
+        authorizer: {
+          arn: `arn:aws:lambda:eu-west-1:${process.env.ACCOUNT_URL}:function:authorization-service-dev-basicAuthorizer`,
+          name: "basicAuthorizer",
+          type: "token",
+          resultTtlInSeconds: 0,
+          identityValidationExpression: "^Basic [-0-9a-zA-Z._]*$",
+        },
       },
     },
   ],
