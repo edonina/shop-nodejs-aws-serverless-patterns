@@ -1,11 +1,9 @@
 import type { AWS } from '@serverless/typescript';
 
-import importFileParser from '@functions/importFileParcer';
-import importProductsFile from '@functions/importProductsFile';
-
+import  basicAuthorizer from '@functions/basicAuthorizer';
 
 const serverlessConfiguration: AWS = {
-  service: 'import-service',
+  service: 'authorization-service',
   frameworkVersion: '3',
   plugins: ['serverless-esbuild'],
   provider: {
@@ -25,39 +23,15 @@ const serverlessConfiguration: AWS = {
         statements: [
           {
             Effect: "Allow",
-            Action: [
-              "s3:PutObject",
-              "s3:PutObjectAcl",
-              "s3:GetObject",
-              "s3:GetObjectAcl",
-              "s3:DeleteObject",
-              "s3:CopyObject",
-            ],
-            Resource: `arn:aws:s3:::patterns-images`,
-          },
-          {
-            Effect: "Allow",
-            Action: [
-              "s3:*",
-            ],
-            Resource: `arn:aws:s3:::patterns-images/*`,
-          },
-          {
-            Effect: "Allow",
             Action: "lambda:InvokeFunction",
             Resource: "*",
           },
-          {
-            Effect: "Allow",
-            Action: ["sqs:SendMessage", "sqs:GetQueueUrl", "sqs:ListQueues"],
-            Resource: `arn:aws:sqs:eu-west-1:471112525199:catalogItemsQueue`,
-          },
-        ],      
+        ],
       },
     },
   },
   // import the function via paths
-  functions: { importProductsFile, importFileParser },
+  functions: { basicAuthorizer },
   package: { individually: true },
   custom: {
     esbuild: {
@@ -65,7 +39,7 @@ const serverlessConfiguration: AWS = {
       minify: false,
       sourcemap: true,
       exclude: ['aws-sdk'],
-      target: 'node14',
+      target: 'node20',
       define: { 'require.resolve': undefined },
       platform: 'node',
       concurrency: 10,
